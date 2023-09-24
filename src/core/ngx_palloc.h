@@ -31,6 +31,7 @@ typedef void (*ngx_pool_cleanup_pt)(void *data);
 
 typedef struct ngx_pool_cleanup_s  ngx_pool_cleanup_t;
 
+// typedef struct ngx_pool_cleanup_s  ngx_pool_cleanup_t;
 struct ngx_pool_cleanup_s {
     ngx_pool_cleanup_pt   handler;
     void                 *data;
@@ -40,6 +41,7 @@ struct ngx_pool_cleanup_s {
 
 typedef struct ngx_pool_large_s  ngx_pool_large_t;
 
+// typedef struct ngx_pool_large_s  ngx_pool_large_s;
 struct ngx_pool_large_s {
     ngx_pool_large_t     *next;
     void                 *alloc;
@@ -47,19 +49,19 @@ struct ngx_pool_large_s {
 
 
 typedef struct {
-    u_char               *last;
-    u_char               *end;
-    ngx_pool_t           *next;
-    ngx_uint_t            failed;
+    u_char               *last;		// 下一次分配小内存的起始位置，即空闲内存的起始位置
+    u_char               *end;		// 内存池结束地址
+    ngx_pool_t           *next;		// 下一个内存池
+    ngx_uint_t            failed;	// 分配小内存的失败次数
 } ngx_pool_data_t;
 
-
+// typedef struct ngx_pool_s ngx_pool_t;
 struct ngx_pool_s {
     ngx_pool_data_t       d;
-    size_t                max;
-    ngx_pool_t           *current;
+    size_t                max;		// 大小内存阈值,4K
+    ngx_pool_t           *current;		// 当前用于分配内存内存池
     ngx_chain_t          *chain;
-    ngx_pool_large_t     *large;
+    ngx_pool_large_t     *large;		// 管理大内存的链表
     ngx_pool_cleanup_t   *cleanup;
     ngx_log_t            *log;
 };
